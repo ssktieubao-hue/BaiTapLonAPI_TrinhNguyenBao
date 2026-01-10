@@ -10,20 +10,27 @@ import apiRoutes from "./routes/api.js";
 import webRoutes from "./routes/web.js";
 import { logger } from "./config/logger.js";
 
+import path from "path";
+import { fileURLToPath } from "url";
+
 dotenv.config();
 
 const app = express();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // ---------------------------
 // Basic & Security Middlewares
 // ---------------------------
 
-app.use(helmet());
+app.use(helmet({ contentSecurityPolicy: false }));
 app.use(cors({ origin: "*" }));
 app.use(compression());
 app.use(cookieParser());
 app.use(express.json({ limit: "5mb" }));
-
+// Serve static files from public/
+app.use(express.static(path.join(__dirname, "public")));
 // ---------------------------
 // Custom Logging Middleware
 // ---------------------------

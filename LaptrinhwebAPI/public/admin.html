@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Deluxe Restaurant</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a1a1a;
+            --accent: #d4af37;
+            --accent-dark: #b8962e;
+            --bg: #faf8f3;
+            --text: #2c2c2c;
+            --text-light: #666;
+            --border: #e5dcc9;
+            --success: #2d7d46;
+            --warning: #d97706;
+            --error: #c73e1d;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            border-bottom: 1px solid var(--border);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 32px;
+            font-weight: 600;
+            color: var(--primary);
+            letter-spacing: 2px;
+        }
+
+        .admin-badge {
+            background: var(--accent);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 2px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin-left: 10px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .btn-logout {
+            padding: 10px 20px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 2px;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-logout:hover {
+            background: var(--accent);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 30px;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 30px;
+            border-radius: 2px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            border-top: 3px solid var(--accent);
+        }
+
+        .stat-label {
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-light);
+            margin-bottom: 10px;
+        }
+
+        .stat-value {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 48px;
+            font-weight: 600;
+            color: var(--primary);
+            line-height: 1;
+        }
+
+        /* Section */
+        .section {
+            background: white;
+            border-radius: 2px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 32px;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .btn-refresh {
+            padding: 10px 20px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 2px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-refresh:hover {
+            background: var(--accent);
+        }
+
+        /* Table Status Grid */
+        .tables-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .table-card {
+            padding: 25px 20px;
+            border: 2px solid var(--border);
+            border-radius: 2px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .table-card.occupied {
+            border-color: var(--warning);
+            background: rgba(217, 119, 6, 0.05);
+        }
+
+        .table-card.available {
+            border-color: var(--success);
+            background: rgba(45, 125, 70, 0.03);
+        }
+
+        .table-number {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--primary);
+        }
+
+        .table-seats {
+            font-size: 13px;
+            color: var(--text-light);
+            margin-bottom: 12px;
+        }
+
+        .table-status {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 2px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .table-status.occupied {
+            background: var(--warning);
+            color: white;
+        }
+
+        .table-status.available {
+            background: var(--success);
+            color: white;
+        }
+
+        .table-customer {
+            margin-top: 12px;
+            font-size: 13px;
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        /* Customer List */
+        .customer-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .customer-card {
+            border: 1px solid var(--border);
+            border-radius: 2px;
+            padding: 25px;
+            background: white;
+            transition: all 0.3s ease;
+        }
+
+        .customer-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .customer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .customer-info h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .customer-info p {
+            font-size: 14px;
+            color: var(--text-light);
+        }
+
+        .customer-total {
+            text-align: right;
+        }
+
+        .customer-total label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-light);
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .customer-total span {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--accent-dark);
+        }
+
+        .order-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .order-item {
+            padding: 15px;
+            background: var(--bg);
+            border-radius: 2px;
+            border-left: 3px solid var(--accent);
+        }
+
+        .order-item-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+            font-size: 15px;
+        }
+
+        .order-item-detail {
+            font-size: 13px;
+            color: var(--text-light);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-light);
+        }
+
+        .empty-state-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+            opacity: 0.3;
+        }
+
+        .empty-state p {
+            font-size: 16px;
+        }
+
+        /* Alert */
+        .alert {
+            padding: 16px 20px;
+            border-radius: 2px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            display: none;
+            animation: slideDown 0.3s ease;
+        }
+
+        .alert.show {
+            display: block;
+        }
+
+        .alert.error {
+            background: #fef2f2;
+            border-left: 4px solid var(--error);
+            color: var(--error);
+        }
+
+        .alert.success {
+            background: #f0fdf4;
+            border-left: 4px solid var(--success);
+            color: var(--success);
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px 15px;
+            }
+            
+            .section {
+                padding: 25px 20px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .tables-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="header-content">
+            <div class="logo">
+                <h1>DELUXE <span class="admin-badge">ADMIN</span></h1>
+            </div>
+            <div class="user-info">
+                <span class="user-name" id="user-name"></span>
+                <button class="btn-logout" onclick="logout()">Đăng Xuất</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="alert" id="alert"></div>
+
+        <!-- Stats -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-label">Tổng Bàn</div>
+                <div class="stat-value" id="total-tables">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Bàn Trống</div>
+                <div class="stat-value" id="available-tables">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Bàn Đang Phục Vụ</div>
+                <div class="stat-value" id="occupied-tables">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Khách Hàng</div>
+                <div class="stat-value" id="total-customers">0</div>
+            </div>
+        </div>
+
+        <!-- Table Status -->
+        <div class="section">
+            <div class="section-header">
+                <h2 class="section-title">Trạng Thái Bàn</h2>
+                <button class="btn-refresh" onclick="loadTables()">🔄 Làm Mới</button>
+            </div>
+            <div class="tables-grid" id="tables-grid"></div>
+        </div>
+
+        <!-- Current Customers -->
+        <div class="section">
+            <div class="section-header">
+                <h2 class="section-title">Khách Hàng Hiện Tại</h2>
+                <button class="btn-refresh" onclick="loadCustomers()">🔄 Làm Mới</button>
+            </div>
+            <div class="customer-list" id="customer-list"></div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:3000/api';
+        let token = localStorage.getItem('token');
+        let user = JSON.parse(localStorage.getItem('user') || 'null');
+
+        // Check authentication and admin role
+        if (!token || !user || user.vai_tro_id !== 1) {
+            alert('Bạn không có quyền truy cập trang này!');
+            window.location.href = 'index.html';
+        }
+
+        // Display user name
+        document.getElementById('user-name').textContent = user.ho_ten;
+
+        // Logout
+        function logout() {
+            localStorage.clear();
+            window.location.href = 'index.html';
+        }
+
+        // Show alert
+        function showAlert(message, type = 'error') {
+            const alert = document.getElementById('alert');
+            alert.textContent = message;
+            alert.className = `alert ${type} show`;
+            setTimeout(() => alert.classList.remove('show'), 5000);
+        }
+
+        // Load table status
+        async function loadTables() {
+            try {
+                const response = await fetch(`${API_URL}/ban`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Không thể tải trạng thái bàn');
+                }
+
+                const result = await response.json();
+                const tables = result.data;
+
+                // Update stats
+                document.getElementById('total-tables').textContent = tables.length;
+                document.getElementById('available-tables').textContent = tables.filter(t => !t.dang_co_khach).length;
+                document.getElementById('occupied-tables').textContent = tables.filter(t => t.dang_co_khach).length;
+
+                // Display tables
+                const grid = document.getElementById('tables-grid');
+                grid.innerHTML = tables.map(table => `
+                    <div class="table-card ${table.dang_co_khach ? 'occupied' : 'available'}">
+                        <div class="table-number">${table.ten_ban}</div>
+                        <div class="table-seats">${table.so_ghe} ghế</div>
+                        <div class="table-status ${table.dang_co_khach ? 'occupied' : 'available'}">
+                            ${table.trang_thai_text}
+                        </div>
+                        ${table.thong_tin_khach ? `
+                            <div class="table-customer">👤 ${table.thong_tin_khach.ten_khach}</div>
+                        ` : ''}
+                    </div>
+                `).join('');
+
+            } catch (error) {
+                showAlert('Lỗi khi tải trạng thái bàn');
+                console.error(error);
+            }
+        }
+
+        // Load current customers
+        async function loadCustomers() {
+            try {
+                const response = await fetch(`${API_URL}/admin/customers`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Không thể tải danh sách khách hàng');
+                }
+
+                const result = await response.json();
+                const customers = result.data;
+
+                // Update customer count
+                document.getElementById('total-customers').textContent = customers.length;
+
+                // Display customers
+                const list = document.getElementById('customer-list');
+                
+                if (customers.length === 0) {
+                    list.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-state-icon">🍽️</div>
+                            <p>Hiện tại không có khách hàng nào</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                list.innerHTML = customers.map(customer => `
+                    <div class="customer-card">
+                        <div class="customer-header">
+                            <div class="customer-info">
+                                <h3>${customer.ten_khach}</h3>
+                                <p>Bàn: ${customer.so_ban} • ${customer.orders.length} món</p>
+                            </div>
+                            <div class="customer-total">
+                                <label>Tổng Tiền</label>
+                                <span>${formatPrice(customer.total_price)}</span>
+                            </div>
+                        </div>
+                        <div class="order-items">
+                            ${customer.orders.map(order => `
+                                <div class="order-item">
+                                    <div class="order-item-name">${order.ten_mon}</div>
+                                    <div class="order-item-detail">
+                                        ${formatPrice(order.gia)} × ${order.so_luong} = ${formatPrice(order.subtotal)}
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `).join('');
+
+            } catch (error) {
+                showAlert('Lỗi khi tải danh sách khách hàng');
+                console.error(error);
+            }
+        }
+
+        // Format price
+        function formatPrice(price) {
+            return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
+        }
+
+        // Auto refresh every 30 seconds
+        setInterval(() => {
+            loadTables();
+            loadCustomers();
+        }, 30000);
+
+        // Initialize
+        loadTables();
+        loadCustomers();
+    </script>
+</body>
+</html>

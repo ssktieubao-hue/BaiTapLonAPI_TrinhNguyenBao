@@ -29,5 +29,59 @@ export const bookingRepository = {
     );
     
     return result.insertId;
+  },
+
+  // 3. Lấy DatBan hiện tại của khách (đang ăn)
+  getCurrentBooking: async (userId) => {
+    const query = `
+      SELECT 
+        d.id,
+        d.ban_an_id,
+        d.thoi_gian_den,
+        d.trang_thai,
+        b.so_ban,
+        b.vi_tri
+      FROM DatBan d
+      JOIN BanAn b ON d.ban_an_id = b.id
+      WHERE d.nguoi_dung_id = ? AND d.trang_thai IN ('DA_DAT', 'DANG_PHUC_VU')
+      ORDER BY d.id DESC
+      LIMIT 1;
+    `;
+    const [rows] = await pool.query(query, [userId]);
+    return rows[0];
+  },
+
+  // 4. Lấy tất cả GoiMon của một DatBan
+  getBookingOrders: async (datBanId) => {
+    const query = `
+      SELECT 
+        gm.id,
+        gm.mon_an_id,
+        m.ten_mon,
+        m.gia,
+        gm.so_luong,
+        gm.ghi_chu
+      FROM GoiMon gm
+      JOIN MonAn m ON gm.mon_an_id = m.id
+      WHERE gm.dat_ban_id = ?
+      ORDER BY gm.id;
+    `;
+    const [rows] = await pool.query(query, [datBanId]);
+    return rows;
+  },
+
+  // 5. Checkout - Thanh toán và giải phóng bàn
+  checkout: async (datBanId) => {
+    // Cập nhật trạng thái DatBan thành 'DA_THANH_TOAN'
+    const [result] = await pool.query(
+      `UPDATE DatBan 
+       SET trang_thai = 'DA_THANH_TOAN'
+       WHERE id = ?`,
+      [datBanId]
+    );
+    
+    return result;
   }
+
+  
 };

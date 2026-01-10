@@ -4,6 +4,7 @@ import menuRoutes from "./menu.routes.js";
 import bookingRoutes from "./booking.routes.js";
 import orderRoutes from "./order.routes.js";
 import tableRoutes from "./table.routes.js";
+import adminRoutes from "./admin.routes.js";
 
 const router = Router();
 
@@ -21,5 +22,8 @@ router.use("/goi-mon", orderRoutes);
 
 // --- TABLE ROUTER ---
 router.use("/ban", tableRoutes);
+
+// --- ADMIN ROUTER ---
+router.use("/admin", adminRoutes);
 
 export default router;

@@ -1,11 +1,10 @@
 import { Router } from "express";
 import { getTables } from "../controllers/table.controller.js";
-import { authenticate } from "../middlewares/auth.middleware.js";
+import { verifyToken, isAdmin } from "../middlewares/auth.middleware.js";
 
 const router = Router();
 
-// GET /api/ban
-// Yêu cầu phải có Token (Đăng nhập) mới xem được
-router.get("/", authenticate, getTables);
+// Chỉ Admin mới xem được bàn nào đang có khách
+router.get('/', verifyToken, isAdmin, getTables);
 
 export default router;
