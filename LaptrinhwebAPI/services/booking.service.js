@@ -1,22 +1,39 @@
 import { bookingRepository } from "../repositories/booking.repository.js";
+import { pool } from "../config/database.js";
 
 export const bookingService = {
   bookTable: async (userId, data) => {
-    // 1. Tìm bàn trống NGAY BÂY GIỜ tại tầng khách chọn
-    const availableTable = await bookingRepository.findAvailableTable(data.vi_tri);
+    let tableId;
+    let tableInfo;
     
-    if (!availableTable) {
-      throw new Error(`Rất tiếc, ${data.vi_tri} hiện tại đã hết bàn trống.`);
-    }
+    // OPTION 1: Khách chọn bàn cụ thể
+    if (data.ban_an_id) {
+      const [rows] = await pool.query(
+        `SELECT b.* FROM BanAn b
+         WHERE b.id = ?
+         AND b.id NOT IN (
+           SELECT ban_an_id FROM DatBan d
+           WHERE d.trang_thai IN ('DA_DAT', 'DANG_PHUC_VU')
+         )`,
+        [data.ban_an_id]
+      );
 
-    // 2. Xếp bàn ngay
-    const bookingId = await bookingRepository.createBooking(userId, availableTable.id, data);
+      if (rows.length === 0) {
+        throw new Error('Bàn này đã có người đặt, vui lòng chọn bàn khác.');
+      }
+
+      tableId = data.ban_an_id;
+      tableInfo = rows[0];
+    } 
+
+    // Tạo booking
+    const bookingId = await bookingRepository.createBooking(userId, tableId, data);
 
     return {
       message: "Xếp bàn thành công!",
       booking_id: bookingId,
-      assigned_table: availableTable.so_ban,
-      floor: availableTable.vi_tri,
+      assigned_table: tableInfo.so_ban,
+      floor: tableInfo.vi_tri,
       note: "Bạn có thể gọi món ngay bây giờ."
     };
   },

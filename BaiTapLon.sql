@@ -150,3 +150,31 @@ INSERT INTO MonAn (ten_mon, gia, mo_ta, hinh_anh, danh_muc_id) VALUES
 ('Nước Ép Dưa Hấu', 40000, 'Nước ép nguyên chất không đường, thanh mát giải nhiệt', 'ep_dua_hau.jpg', 2),
 ('Cafe Sữa Đá Sài Gòn', 35000, 'Cafe phin truyền thống đậm đà hương vị Việt', 'cafe_sua.jpg', 2),
 ('Mojito Chanh Bạc Hà', 50000, 'Soda chanh tươi và lá bạc hà mát lạnh (Mocktail)', 'mojito.jpg', 2);
+
+-- Thêm cột hinh_anh vào bảng BanAn
+ALTER TABLE BanAn ADD COLUMN hinh_anh VARCHAR(255) AFTER mo_ta;
+
+-- Tầng 1
+UPDATE BanAn SET hinh_anh = 'image/tables/bancuaravaoT1.jpg' WHERE so_ban = 'T1-01';
+UPDATE BanAn SET hinh_anh = 'image/tables/bantieuchuanT1.jpg' WHERE so_ban = 'T1-02';
+UPDATE BanAn SET hinh_anh = 'image/tables/bantieuchuanT1.jpg' WHERE so_ban = 'T1-03';
+UPDATE BanAn SET hinh_anh = 'image/tables/bantieuchuanT1.jpg' WHERE so_ban = 'T1-04';
+UPDATE BanAn SET hinh_anh = 'image/tables/banyentinhT1.jpg' WHERE so_ban = 'T1-05';
+UPDATE BanAn SET hinh_anh = 'image/tables/bancanhcuasoT1.jpg' WHERE so_ban = 'T1-06';
+
+-- Tầng 2
+UPDATE BanAn SET hinh_anh = 'image/tables/bangiadinhT2.jpg' WHERE so_ban = 'T2-01';
+UPDATE BanAn SET hinh_anh = 'image/tables/bangiadinhT2.jpg' WHERE so_ban = 'T2-02';
+UPDATE BanAn SET hinh_anh = 'image/tables/bangiadinhT2.jpg' WHERE so_ban = 'T2-03';
+UPDATE BanAn SET hinh_anh = 'image/tables/banviewthoangT2.jpg' WHERE so_ban = 'T2-04';
+UPDATE BanAn SET hinh_anh = 'image/tables/banviewthoangT2.jpg' WHERE so_ban = 'T2-05';
+UPDATE BanAn SET hinh_anh = 'image/tables/banriengtuT2.jpg' WHERE so_ban = 'T2-06';
+
+-- Tầng 3
+UPDATE BanAn SET hinh_anh = 'image/tables/bantiecnhoT3.jpg' WHERE so_ban = 'T3-01';
+UPDATE BanAn SET hinh_anh = 'image/tables/bantiecnhoT3.jpg' WHERE so_ban = 'T3-02';
+UPDATE BanAn SET hinh_anh = 'image/tables/bantieclonT3.jpg' WHERE so_ban = 'T3-03';
+UPDATE BanAn SET hinh_anh = 'image/tables/bantieclonT3.jpg' WHERE so_ban = 'T3-04';
+UPDATE BanAn SET hinh_anh = 'image/tables/banngoaitroiT3.jpg' WHERE so_ban = 'T3-05';
+UPDATE BanAn SET hinh_anh = 'image/tables/banngoaitroiT3.jpg' WHERE so_ban = 'T3-06';
+

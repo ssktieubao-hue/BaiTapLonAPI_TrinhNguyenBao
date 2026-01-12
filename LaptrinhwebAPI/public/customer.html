@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Khách Hàng - Deluxe Restaurant</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <title>Khách Hàng - Bảo Hào Restaurant</title>
     <style>
         :root {
             --primary: #1a1a1a;
@@ -16,7 +15,7 @@
             --border: #e5dcc9;
             --error: #c73e1d;
             --success: #2d7d46;
-            --white: #ffffff;
+            --warning: #d97706;
         }
 
         * {
@@ -26,13 +25,12 @@
         }
 
         body {
-            font-family: 'Lato', sans-serif;
+            font-family: 'Times New Roman', Times, serif;
             background: var(--bg);
             color: var(--text);
             min-height: 100vh;
         }
 
-        /* Header */
         .header {
             background: white;
             border-bottom: 1px solid var(--border);
@@ -53,9 +51,9 @@
         }
 
         .logo h1 {
-            font-family: 'Cormorant Garamond', serif;
+            font-family: 'Times New Roman', Times, serif;
             font-size: 32px;
-            font-weight: 600;
+            font-weight: 700;
             color: var(--primary);
             letter-spacing: 2px;
         }
@@ -66,11 +64,6 @@
             gap: 20px;
         }
 
-        .user-name {
-            font-size: 14px;
-            color: var(--text-light);
-        }
-
         .btn-logout {
             padding: 10px 20px;
             background: var(--primary);
@@ -79,7 +72,6 @@
             border-radius: 2px;
             font-size: 13px;
             font-weight: 600;
-            letter-spacing: 0.5px;
             cursor: pointer;
             transition: all 0.3s ease;
         }
@@ -88,14 +80,12 @@
             background: var(--accent);
         }
 
-        /* Container */
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 40px 30px;
         }
 
-        /* Section */
         .section {
             background: white;
             border-radius: 2px;
@@ -105,9 +95,9 @@
         }
 
         .section-title {
-            font-family: 'Cormorant Garamond', serif;
+            font-family: 'Times New Roman', Times, serif;
             font-size: 32px;
-            font-weight: 600;
+            font-weight: 700;
             margin-bottom: 10px;
             color: var(--primary);
         }
@@ -118,53 +108,138 @@
             margin-bottom: 30px;
         }
 
-        #cart-notice {
-            background: rgba(217, 119, 6, 0.1);
-            border-left: 3px solid var(--warning);
-            padding: 12px 16px;
-            border-radius: 2px;
-            color: var(--warning);
-            font-weight: 600;
-            margin-bottom: 20px;
-        }
-
-        /* Booking Section */
-        .floor-options {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
+        /* Floor Filters - giống menu filters */
+        .floor-filters {
+            display: flex;
+            gap: 15px;
             margin-bottom: 30px;
+            flex-wrap: wrap;
         }
 
-        .floor-card {
-            padding: 30px 20px;
+        .floor-filter-btn {
+            padding: 12px 24px;
+            background: white;
             border: 2px solid var(--border);
             border-radius: 2px;
-            text-align: center;
+            font-size: 14px;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
         }
 
-        .floor-card:hover {
+        .floor-filter-btn:hover, .floor-filter-btn.active {
             border-color: var(--accent);
-            transform: translateY(-5px);
-            box-shadow: 0 8px 24px rgba(212, 175, 55, 0.2);
+            background: rgba(212, 175, 55, 0.05);
+            color: var(--accent-dark);
         }
 
-        .floor-card.selected {
+        /* Table Grid - giống menu grid */
+        .tables-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 25px;
+        }
+
+        .table-card {
+            border: 2px solid var(--border);
+            border-radius: 2px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            background: white;
+            cursor: pointer;
+        }
+
+        .table-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        }
+
+        .table-card.selected {
             border-color: var(--accent);
             background: rgba(212, 175, 55, 0.05);
         }
 
-        .floor-card h3 {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 24px;
-            margin-bottom: 8px;
+        .table-card-header {
+            width: 100%;
+            height: 150px;
+            background: linear-gradient(135deg, #f5f0e5 0%, #e5dcc9 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
         }
 
-        .floor-card p {
+        .table-card-header .table-icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        .table-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 6px 12px;
+            background: var(--success);
+            color: white;
+            border-radius: 2px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .table-card-content {
+            padding: 20px;
+        }
+
+        .table-name {
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--primary);
+        }
+
+        .table-info {
             font-size: 13px;
             color: var(--text-light);
+            margin-bottom: 15px;
+        }
+
+        .table-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .table-location {
+            font-size: 12px;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .select-indicator {
+            width: 24px;
+            height: 24px;
+            border: 2px solid var(--border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .table-card.selected .select-indicator {
+            background: var(--accent);
+            border-color: var(--accent);
+        }
+
+        .table-card.selected .select-indicator::after {
+            content: '✓';
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
         }
 
         /* Current Booking */
@@ -182,16 +257,12 @@
             gap: 20px;
         }
 
-        .booking-detail {
-            display: flex;
-            flex-direction: column;
-        }
-
         .booking-detail label {
             font-size: 12px;
             text-transform: uppercase;
             letter-spacing: 1px;
             color: var(--text-light);
+            display: block;
             margin-bottom: 5px;
         }
 
@@ -237,7 +308,6 @@
             border-radius: 2px;
             overflow: hidden;
             transition: all 0.3s ease;
-            background: white;
         }
 
         .menu-item:hover {
@@ -252,9 +322,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-family: 'Cormorant Garamond', serif;
             font-size: 48px;
-            color: var(--accent);
         }
 
         .menu-item-content {
@@ -262,9 +330,9 @@
         }
 
         .menu-item-name {
-            font-family: 'Cormorant Garamond', serif;
+            font-family: 'Times New Roman', Times, serif;
             font-size: 20px;
-            font-weight: 600;
+            font-weight: 700;
             margin-bottom: 8px;
         }
 
@@ -272,7 +340,6 @@
             font-size: 13px;
             color: var(--text-light);
             margin-bottom: 15px;
-            line-height: 1.6;
         }
 
         .menu-item-footer {
@@ -316,17 +383,6 @@
             border: 1px solid var(--border);
             border-radius: 2px;
             margin-bottom: 15px;
-            background: white;
-        }
-
-        .cart-item-info h4 {
-            font-size: 16px;
-            margin-bottom: 5px;
-        }
-
-        .cart-item-info p {
-            font-size: 14px;
-            color: var(--text-light);
         }
 
         .cart-item-controls {
@@ -348,7 +404,6 @@
             background: white;
             border-radius: 2px;
             cursor: pointer;
-            font-size: 16px;
             transition: all 0.3s ease;
         }
 
@@ -365,26 +420,15 @@
             border-radius: 2px;
             font-size: 12px;
             cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .btn-remove:hover {
-            background: #a83219;
         }
 
         .cart-total {
             display: flex;
             justify-content: space-between;
-            align-items: center;
             padding: 25px;
             background: rgba(212, 175, 55, 0.05);
             border-radius: 2px;
             margin-bottom: 25px;
-        }
-
-        .cart-total span:first-child {
-            font-size: 18px;
-            font-weight: 600;
         }
 
         .cart-total span:last-child {
@@ -393,7 +437,6 @@
             color: var(--accent-dark);
         }
 
-        /* Buttons */
         .btn-primary {
             width: 100%;
             padding: 16px;
@@ -421,101 +464,76 @@
             transform: none;
         }
 
-        /* Alert */
         .alert {
             padding: 16px 20px;
             border-radius: 2px;
             margin-bottom: 20px;
-            font-size: 14px;
             display: none;
-            animation: slideDown 0.3s ease;
         }
 
-        .alert.show {
-            display: block;
+        .alert.show { display: block; }
+        .alert.error { background: #fef2f2; border-left: 4px solid var(--error); color: var(--error); }
+        .alert.success { background: #f0fdf4; border-left: 4px solid var(--success); color: var(--success); }
+
+        .hidden { display: none !important; }
+
+        #cart-notice {
+            background: rgba(217, 119, 6, 0.1);
+            border-left: 3px solid var(--warning);
+            padding: 12px 16px;
+            border-radius: 2px;
+            color: var(--warning);
+            font-weight: 600;
+            margin-bottom: 20px;
         }
 
-        .alert.error {
-            background: #fef2f2;
-            border-left: 4px solid var(--error);
-            color: var(--error);
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-light);
         }
 
-        .alert.success {
-            background: #f0fdf4;
-            border-left: 4px solid var(--success);
-            color: var(--success);
-        }
-
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .hidden {
-            display: none !important;
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                padding: 20px 15px;
-            }
-            
-            .section {
-                padding: 25px 20px;
-            }
-            
-            .menu-grid {
-                grid-template-columns: 1fr;
-            }
+        .empty-state-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+            opacity: 0.3;
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
     <div class="header">
         <div class="header-content">
-            <div class="logo">
-                <h1>DELUXE</h1>
-            </div>
+            <div class="logo"><h1>BẢO HÀO</h1></div>
             <div class="user-info">
-                <span class="user-name" id="user-name"></span>
+                <span id="user-name"></span>
                 <button class="btn-logout" onclick="logout()">Đăng Xuất</button>
             </div>
         </div>
     </div>
 
-    <!-- Main Content -->
     <div class="container">
         <div class="alert" id="alert"></div>
 
         <!-- Booking Section -->
         <div class="section" id="booking-section">
-            <h2 class="section-title">Đặt Bàn</h2>
-            <p class="section-subtitle">Chọn tầng bạn muốn ngồi</p>
+            <h2 class="section-title">Chọn Bàn</h2>
+            <p class="section-subtitle">Chọn tầng và bàn bạn muốn ngồi</p>
 
-            <div class="floor-options">
-                <div class="floor-card" onclick="selectFloor('Tầng 1')">
-                    <h3>Tầng 1</h3>
-                    <p>Bàn tiêu chuẩn 4 ghế</p>
-                </div>
-                <div class="floor-card" onclick="selectFloor('Tầng 2')">
-                    <h3>Tầng 2</h3>
-                    <p>Bàn gia đình 6 ghế</p>
-                </div>
-                <div class="floor-card" onclick="selectFloor('Tầng 3')">
-                    <h3>Tầng 3</h3>
-                    <p>Bàn VIP 8-10 ghế</p>
-                </div>
+            <!-- Floor Filters -->
+            <div class="floor-filters">
+                <button class="floor-filter-btn active" onclick="filterTables(null)">Tất Cả</button>
+                <button class="floor-filter-btn" onclick="filterTables('Tầng 1')">Tầng 1</button>
+                <button class="floor-filter-btn" onclick="filterTables('Tầng 2')">Tầng 2</button>
+                <button class="floor-filter-btn" onclick="filterTables('Tầng 3')">Tầng 3</button>
             </div>
 
-            <button class="btn-primary" id="btn-book" onclick="bookTable()">Đặt Bàn Ngay</button>
+            <!-- Tables Grid -->
+            <div class="tables-grid" id="tables-grid"></div>
+
+            <!-- Book Button -->
+            <button class="btn-primary" id="btn-book" onclick="confirmBooking()" disabled style="margin-top: 30px;">
+                Đặt Bàn
+            </button>
         </div>
 
         <!-- Current Booking -->
@@ -531,13 +549,6 @@
         <div class="section" id="menu-section">
             <h2 class="section-title">Thực Đơn</h2>
             <p class="section-subtitle">Chọn món bạn muốn gọi</p>
-
-            <div class="menu-filters">
-                <button class="filter-btn active" onclick="filterMenu(null)">Tất Cả</button>
-                <button class="filter-btn" onclick="filterMenu(1)">Đồ Ăn</button>
-                <button class="filter-btn" onclick="filterMenu(2)">Đồ Uống</button>
-            </div>
-
             <div class="menu-grid" id="menu-grid"></div>
         </div>
 
@@ -558,26 +569,20 @@
         const API_URL = 'http://localhost:3000/api';
         let token = localStorage.getItem('token');
         let user = JSON.parse(localStorage.getItem('user') || 'null');
-        let selectedFloor = null;
+        let allTables = [];
+        let selectedTableId = null;
         let currentBooking = null;
         let menuItems = [];
         let cart = [];
 
-        // Check authentication
-        if (!token || !user) {
-            window.location.href = 'index.html';
-        }
-
-        // Display user name
+        if (!token || !user) window.location.href = 'index.html';
         document.getElementById('user-name').textContent = user.ho_ten;
 
-        // Logout
         function logout() {
             localStorage.clear();
             window.location.href = 'index.html';
         }
 
-        // Show alert
         function showAlert(message, type = 'error') {
             const alert = document.getElementById('alert');
             alert.textContent = message;
@@ -585,19 +590,94 @@
             setTimeout(() => alert.classList.remove('show'), 5000);
         }
 
-        // Select floor
-        function selectFloor(floor) {
-            selectedFloor = floor;
-            document.querySelectorAll('.floor-card').forEach(card => {
-                card.classList.remove('selected');
-            });
-            event.target.closest('.floor-card').classList.add('selected');
+        // Load all available tables
+        async function loadAvailableTables() {
+            try {
+                const response = await fetch(`${API_URL}/ban/available`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+
+                const result = await response.json();
+
+                if (response.ok && result.success) {
+                    allTables = result.data;
+                    displayTables(allTables);
+                } else {
+                    showAlert('Không thể tải danh sách bàn');
+                }
+            } catch (error) {
+                showAlert('Lỗi kết nối server');
+                console.error(error);
+            }
         }
 
-        // Book table
-        async function bookTable() {
-            if (!selectedFloor) {
-                showAlert('Vui lòng chọn tầng');
+        // Display tables
+        function displayTables(tables) {
+            const grid = document.getElementById('tables-grid');
+
+            if (tables.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state" style="grid-column: 1/-1;">
+                        <div class="empty-state-icon">🪑</div>
+                        <p>Không có bàn trống</p>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = tables.map(table => {
+                const imageUrl = table.hinh_anh || 'images/tables/default.jpg';
+                return `
+                    <div class="table-card ${selectedTableId === table.ban_id ? 'selected' : ''}" 
+                         onclick="selectTable(${table.ban_id})">
+                        <div class="table-card-header" style="background-image: url('${imageUrl}'); background-size: cover; background-position: center;">
+                            <span class="table-badge">Trống</span>
+                        </div>
+                        <div class="table-card-content">
+                            <h3 class="table-name">${table.so_ban}</h3>
+                            <p class="table-info">${table.so_ghe} ghế${table.mo_ta ? ' • ' + table.mo_ta : ''}</p>
+                            <div class="table-footer">
+                                <span class="table-location">${table.vi_tri}</span>
+                                <div class="select-indicator"></div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Filter tables by floor
+        function filterTables(floor) {
+            document.querySelectorAll('.floor-filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            const filtered = floor ? allTables.filter(t => t.vi_tri === floor) : allTables;
+            displayTables(filtered);
+
+            // Reset selection if filtered out
+            if (selectedTableId && !filtered.find(t => t.ban_id === selectedTableId)) {
+                selectedTableId = null;
+                document.getElementById('btn-book').disabled = true;
+            }
+        }
+
+        // Select table
+        function selectTable(tableId) {
+            selectedTableId = tableId;
+            
+            // Update UI
+            document.querySelectorAll('.table-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            event.target.closest('.table-card').classList.add('selected');
+            
+            document.getElementById('btn-book').disabled = false;
+        }
+
+        // Confirm booking
+        async function confirmBooking() {
+            if (!selectedTableId) {
+                showAlert('Vui lòng chọn bàn');
                 return;
             }
 
@@ -608,16 +688,20 @@
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${token}`
                     },
-                    body: JSON.stringify({ vi_tri: selectedFloor })
+                    body: JSON.stringify({ ban_an_id: selectedTableId })
                 });
 
                 const result = await response.json();
 
                 if (response.ok) {
-                    showAlert('Đặt bàn thành công! Bây giờ bạn có thể gọi món.', 'success');
+                    showAlert(`Đặt bàn thành công! Bàn: ${result.assigned_table}`, 'success');
+                    selectedTableId = null;
                     await loadCurrentBooking();
+                    await loadAvailableTables(); // Refresh table list
                 } else {
                     showAlert(result.message || 'Đặt bàn thất bại');
+                    // Reload tables in case the table was just taken
+                    await loadAvailableTables();
                 }
             } catch (error) {
                 showAlert('Lỗi kết nối server');
@@ -636,16 +720,12 @@
                     const result = await response.json();
                     currentBooking = result.booking;
                     
-                    // Hide booking section, show current booking
                     document.getElementById('booking-section').classList.add('hidden');
                     document.getElementById('current-booking-section').classList.remove('hidden');
-                    
-                    // Enable order button
                     document.getElementById('btn-order').disabled = false;
                     document.getElementById('cart-notice').style.display = 'none';
 
-                    const bookingInfo = document.getElementById('booking-info');
-                    bookingInfo.innerHTML = `
+                    document.getElementById('booking-info').innerHTML = `
                         <div class="booking-detail">
                             <label>Số Bàn</label>
                             <span>${currentBooking.so_ban}</span>
@@ -660,11 +740,8 @@
                         </div>
                     `;
                 } else {
-                    // Show booking section, hide current booking
                     document.getElementById('booking-section').classList.remove('hidden');
                     document.getElementById('current-booking-section').classList.add('hidden');
-                    
-                    // Disable order button until booked
                     document.getElementById('btn-order').disabled = true;
                     document.getElementById('cart-notice').style.display = 'block';
                 }
@@ -681,58 +758,41 @@
                 menuItems = result.items;
                 displayMenu(menuItems);
             } catch (error) {
-                console.error(error);
+                console.error('Error loading menu:', error);
             }
         }
 
-        // Display menu
         function displayMenu(items) {
-            const grid = document.getElementById('menu-grid');
-            grid.innerHTML = items.map(item => `
-                <div class="menu-item">
-                    <div class="menu-item-image">🍽️</div>
-                    <div class="menu-item-content">
-                        <h3 class="menu-item-name">${item.ten_mon}</h3>
-                        <p class="menu-item-desc">${item.mo_ta || 'Món ăn ngon'}</p>
-                        <div class="menu-item-footer">
-                            <span class="menu-item-price">${formatPrice(item.gia)}</span>
-                            <button class="btn-add" onclick="addToCart(${item.id})">Thêm</button>
+            document.getElementById('menu-grid').innerHTML = items.map(item => {
+                const imageUrl = item.hinh_anh || 'images/menu/default.jpg';
+                return `
+                    <div class="menu-item">
+                        <div class="menu-item-image" style="background-image: url('${imageUrl}'); background-size: cover; background-position: center;"></div>
+                        <div class="menu-item-content">
+                            <h3 class="menu-item-name">${item.ten_mon}</h3>
+                            <p class="menu-item-desc">${item.mo_ta || 'Món ăn ngon'}</p>
+                            <div class="menu-item-footer">
+                                <span class="menu-item-price">${formatPrice(item.gia)}</span>
+                                <button class="btn-add" onclick="addToCart(${item.id})">Thêm</button>
+                            </div>
                         </div>
                     </div>
-                </div>
-            `).join('');
+                `;
+            }).join('');
         }
 
-        // Filter menu
-        function filterMenu(categoryId) {
-            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-
-            const filtered = categoryId ? menuItems.filter(item => item.danh_muc_id === categoryId) : menuItems;
-            displayMenu(filtered);
-        }
-
-        // Add to cart
         function addToCart(itemId) {
             const item = menuItems.find(m => m.id === itemId);
             const existing = cart.find(c => c.mon_an_id === itemId);
-
             if (existing) {
                 existing.so_luong++;
             } else {
-                cart.push({
-                    mon_an_id: itemId,
-                    ten_mon: item.ten_mon,
-                    gia: item.gia,
-                    so_luong: 1
-                });
+                cart.push({ mon_an_id: itemId, ten_mon: item.ten_mon, gia: item.gia, so_luong: 1 });
             }
-
             updateCart();
             showAlert('Đã thêm vào giỏ hàng', 'success');
         }
 
-        // Update cart display
         function updateCart() {
             const cartItems = document.getElementById('cart-items');
             const cartTotal = document.getElementById('cart-total');
@@ -743,7 +803,7 @@
                 return;
             }
 
-            cartItems.innerHTML = cart.map((item, index) => `
+            cartItems.innerHTML = cart.map((item, i) => `
                 <div class="cart-item">
                     <div class="cart-item-info">
                         <h4>${item.ten_mon}</h4>
@@ -751,45 +811,32 @@
                     </div>
                     <div class="cart-item-controls">
                         <div class="quantity-control">
-                            <button class="quantity-btn" onclick="updateQuantity(${index}, -1)">-</button>
+                            <button class="quantity-btn" onclick="updateQuantity(${i}, -1)">-</button>
                             <span>${item.so_luong}</span>
-                            <button class="quantity-btn" onclick="updateQuantity(${index}, 1)">+</button>
+                            <button class="quantity-btn" onclick="updateQuantity(${i}, 1)">+</button>
                         </div>
-                        <button class="btn-remove" onclick="removeFromCart(${index})">Xóa</button>
+                        <button class="btn-remove" onclick="removeFromCart(${i})">Xóa</button>
                     </div>
                 </div>
             `).join('');
 
-            const total = cart.reduce((sum, item) => sum + (item.gia * item.so_luong), 0);
-            cartTotal.textContent = formatPrice(total);
+            cartTotal.textContent = formatPrice(cart.reduce((sum, item) => sum + (item.gia * item.so_luong), 0));
         }
 
-        // Update quantity
         function updateQuantity(index, change) {
             cart[index].so_luong += change;
-            if (cart[index].so_luong <= 0) {
-                cart.splice(index, 1);
-            }
+            if (cart[index].so_luong <= 0) cart.splice(index, 1);
             updateCart();
         }
 
-        // Remove from cart
         function removeFromCart(index) {
             cart.splice(index, 1);
             updateCart();
         }
 
-        // Submit order
         async function submitOrder() {
-            if (cart.length === 0) {
-                showAlert('Giỏ hàng trống');
-                return;
-            }
-
-            if (!currentBooking) {
-                showAlert('Vui lòng đặt bàn trước');
-                return;
-            }
+            if (!cart.length) return showAlert('Giỏ hàng trống');
+            if (!currentBooking) return showAlert('Vui lòng đặt bàn trước');
 
             try {
                 const response = await fetch(`${API_URL}/goi-mon`, {
@@ -798,14 +845,10 @@
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${token}`
                     },
-                    body: JSON.stringify({
-                        dat_ban_id: currentBooking.id,
-                        items: cart
-                    })
+                    body: JSON.stringify({ dat_ban_id: currentBooking.id, items: cart })
                 });
 
                 const result = await response.json();
-
                 if (response.ok) {
                     showAlert('Gọi món thành công!', 'success');
                     cart = [];
@@ -816,15 +859,11 @@
                 }
             } catch (error) {
                 showAlert('Lỗi kết nối server');
-                console.error(error);
             }
         }
 
-        // Checkout
         async function checkout() {
-            if (!currentBooking) return;
-
-            if (!confirm('Bạn có chắc muốn thanh toán?')) return;
+            if (!currentBooking || !confirm('Bạn có chắc muốn thanh toán?')) return;
 
             try {
                 const response = await fetch(`${API_URL}/dat-ban/checkout`, {
@@ -837,30 +876,25 @@
                 });
 
                 const result = await response.json();
-
                 if (response.ok) {
                     showAlert(`Thanh toán thành công! Tổng: ${formatPrice(result.total_price)}`, 'success');
-                    currentBooking = null;
-                    cart = [];
-                    updateCart();
                     setTimeout(() => location.reload(), 2000);
                 } else {
                     showAlert(result.message || 'Thanh toán thất bại');
                 }
             } catch (error) {
                 showAlert('Lỗi kết nối server');
-                console.error(error);
             }
         }
 
-        // Format price
         function formatPrice(price) {
             return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
         }
 
         // Initialize
         loadCurrentBooking();
-        loadMenu(); // Load menu immediately on page load
+        loadAvailableTables();
+        loadMenu();
     </script>
 </body>
 </html>
