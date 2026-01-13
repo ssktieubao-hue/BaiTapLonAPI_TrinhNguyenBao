@@ -626,7 +626,7 @@
             }
 
             grid.innerHTML = tables.map(table => {
-                const imageUrl = table.hinh_anh || 'images/tables/default.jpg';
+                const imageUrl = table.hinh_anh || 'image/tables/default.jpg';
                 return `
                     <div class="table-card ${selectedTableId === table.ban_id ? 'selected' : ''}" 
                          onclick="selectTable(${table.ban_id})">
@@ -755,7 +755,19 @@
             try {
                 const response = await fetch(`${API_URL}/thuc-don`);
                 const result = await response.json();
-                menuItems = result.items;
+                
+                // Loại bỏ món trùng (giữ món có ID nhỏ nhất)
+                const uniqueItems = [];
+                const seenNames = new Set();
+                
+                result.items.forEach(item => {
+                    if (!seenNames.has(item.ten_mon)) {
+                        seenNames.add(item.ten_mon);
+                        uniqueItems.push(item);
+                    }
+                });
+                
+                menuItems = uniqueItems;
                 displayMenu(menuItems);
             } catch (error) {
                 console.error('Error loading menu:', error);
@@ -764,7 +776,7 @@
 
         function displayMenu(items) {
             document.getElementById('menu-grid').innerHTML = items.map(item => {
-                const imageUrl = item.hinh_anh || 'images/menu/default.jpg';
+                const imageUrl = item.hinh_anh || 'image/menu/default.jpg';
                 return `
                     <div class="menu-item">
                         <div class="menu-item-image" style="background-image: url('${imageUrl}'); background-size: cover; background-position: center;"></div>

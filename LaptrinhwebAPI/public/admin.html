@@ -503,13 +503,13 @@
                 const grid = document.getElementById('tables-grid');
                 grid.innerHTML = tables.map(table => `
                     <div class="table-card ${table.dang_co_khach ? 'occupied' : 'available'}">
-                        <div class="table-number">${table.ten_ban}</div>
+                        <div class="table-number">${table.so_ban}</div>
                         <div class="table-seats">${table.so_ghe} ghế</div>
                         <div class="table-status ${table.dang_co_khach ? 'occupied' : 'available'}">
-                            ${table.trang_thai_text}
+                            ${table.dang_co_khach ? 'Đang phục vụ' : 'Bàn trống'}
                         </div>
-                        ${table.thong_tin_khach ? `
-                            <div class="table-customer">👤 ${table.thong_tin_khach.ten_khach}</div>
+                        ${table.ten_khach ? `
+                            <div class="table-customer">👤 ${table.ten_khach}</div>
                         ` : ''}
                     </div>
                 `).join('');

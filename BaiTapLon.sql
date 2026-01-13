@@ -178,3 +178,23 @@ UPDATE BanAn SET hinh_anh = 'image/tables/bantieclonT3.jpg' WHERE so_ban = 'T3-0
 UPDATE BanAn SET hinh_anh = 'image/tables/banngoaitroiT3.jpg' WHERE so_ban = 'T3-05';
 UPDATE BanAn SET hinh_anh = 'image/tables/banngoaitroiT3.jpg' WHERE so_ban = 'T3-06';
 
+SET SQL_SAFE_UPDATES = 0;
+-- Món ăn (6 món)
+UPDATE MonAn SET hinh_anh = 'image/menu/ga-chien-nuoc-mam.jpg' WHERE ten_mon = 'Gà Chiên Nước Mắm';
+UPDATE MonAn SET hinh_anh = 'image/menu/bo-luc-lac-khoai-tay.jpg' WHERE ten_mon = 'Bò Lúc Lắc Khoai Tây';
+UPDATE MonAn SET hinh_anh = 'image/menu/suon-nuong-bbq.jpg' WHERE ten_mon = 'Sườn Nướng BBQ';
+UPDATE MonAn SET hinh_anh = 'image/menu/salad-ca-ngu.jpg' WHERE ten_mon = 'Salad Cá Ngừ';
+UPDATE MonAn SET hinh_anh = 'image/menu/muc-hap-hanh-gung.jpg' WHERE ten_mon = 'Mực Hấp Hành Gừng';
+UPDATE MonAn SET hinh_anh = 'image/menu/nem-ran-ha-noi.jpg' WHERE ten_mon = 'Nem Rán Hà Nội';
+
+-- Đồ uống (5 món)
+UPDATE MonAn SET hinh_anh = 'image/menu/tra-dao-cam-sa.jpg' WHERE ten_mon = 'Trà Đào Cam Sả';
+UPDATE MonAn SET hinh_anh = 'image/menu/sinh-to-bo.jpg' WHERE ten_mon = 'Sinh Tố Bơ';
+UPDATE MonAn SET hinh_anh = 'image/menu/nuoc-ep-dua-hau.jpg' WHERE ten_mon = 'Nước Ép Dưa Hấu';
+UPDATE MonAn SET hinh_anh = 'image/menu/cafe-sua-da-sai-gon.jpg' WHERE ten_mon = 'Cafe Sữa Đá Sài Gòn';
+UPDATE MonAn SET hinh_anh = 'image/menu/mojito-chanh-bac-ha.jpg' WHERE ten_mon = 'Mojito Chanh Bạc Hà';
+
+SET SQL_SAFE_UPDATES = 1;
+
+
+
